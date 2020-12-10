@@ -1,0 +1,25 @@
+const settings = {
+	"async": true,
+	"crossDomain": true,
+	"url": "https://realtor.p.rapidapi.com/properties/v2/list-for-sale?city=New%20York%20City&limit=200&offset=0&state_code=NY&sort=relevance",
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-key": "3ec348e095msh58191911b39b7adp1b543ejsna82e34a99b62",
+		"x-rapidapi-host": "realtor.p.rapidapi.com"
+	}
+};
+
+$.ajax(settings).done(function (data) {
+  console.log(data);
+  d3.json(data).then(function(data){
+    console.log(data);
+    L.geoJson(data, {
+      pointToLayer: function(feature, latlng){console.log(data);
+      return L.circleMarker(latlng);
+    }, 
+    onEachFeature: function(feature, layer) {
+      layer.bindPopup(feature.properties.address.line);
+    }
+  }).addTo(for_sale_homes)});
+});
+
